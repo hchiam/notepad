@@ -1,4 +1,4 @@
-# notepad [version](https://img.shields.io/github/release/hchiam/notepad?style=for-the-badge) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://github.com/hchiam/notepad/blob/main/LICENSE)
+# notepad ![version](https://img.shields.io/github/release/hchiam/notepad?style=for-the-badge) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://github.com/hchiam/notepad/blob/main/LICENSE)
 
 Update live demo link later:
 
