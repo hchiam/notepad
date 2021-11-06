@@ -4,6 +4,11 @@ Live demo: <https://simple-notepad.surge.sh>
 
 Inspired by [a bookmarklet](https://github.com/hchiam/learning-js/blob/33ffac8c6be085fb67d98d935da486f51314350e/bookmarklets/notepad.html).
 
+```bash
+yarn dev
+yarn deploy
+```
+
 ## TODO
 
 - #1: if yes, read text file: <https://codepen.io/hchiam/pen/xxLWbop>
