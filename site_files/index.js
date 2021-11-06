@@ -2,7 +2,7 @@ var textarea = document.querySelector("textarea");
 textarea.focus();
 
 var rememberedText = localStorage.getItem("simple-notepad");
-var yes = confirm("Restore previous?");
+var yes = !rememberedText || confirm("Restore previous?");
 textarea.value = yes && rememberedText ? rememberedText : "";
 
 textarea.addEventListener("keyup", function () {
