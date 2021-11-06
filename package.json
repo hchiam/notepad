@@ -1,15 +1,19 @@
 {
-  "name": "convenience",
+  "name": "notepad",
   "license": "MIT",
   "scripts": {
+    "start": "yarn dev",
+    "dev": "parcel site_files/index.html",
+    "build": "yarn deploy",
+    "deploy": "surge site_files https://simple-notepad.surge.sh",
     "lint": "prettier --write *.{js,css,html,scss,json,md,ts,tsx}",
     "es-check": "es-check es5 './**/*.js' --not=node_modules"
   },
-  "dependencies": {},
   "devDependencies": {
     "es-check": "^6.0.0",
     "husky": "^4.3.0",
     "lint-staged": "^11.0.0",
+    "parcel-bundler": "^1.12.5",
     "prettier": "^2.3.1"
   },
   "husky": {

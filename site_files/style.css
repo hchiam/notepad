@@ -1,0 +1,9 @@
+html {
+  background: rgb(51 51 51);
+  color: white;
+  font-family: monospace;
+  font-size: 2rem;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+}
