@@ -8,8 +8,3 @@ Inspired by [a bookmarklet](https://github.com/hchiam/learning-js/blob/33ffac8c6
 yarn dev
 yarn deploy
 ```
-
-## TODO
-
-- #1: if yes, read text file: <https://codepen.io/hchiam/pen/xxLWbop>
-- #3: add saving upon closing
