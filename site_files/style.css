@@ -1,9 +1,16 @@
-html {
-  background: rgb(51 51 51);
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+textarea {
+  padding: 3rem;
+  resize: none;
+  width: 100vw;
+  height: 100vh;
+  background: #333;
   color: white;
   font-family: monospace;
   font-size: 2rem;
-  padding: 1rem;
-  display: flex;
-  justify-content: center;
 }
