@@ -4,8 +4,8 @@ document.querySelector("textarea").focus();
 
 ## TODO
 
-- if yes, read text file: <https://codepen.io/hchiam/pen/xxLWbop>
-- detect closing tab - see stack overflow
-- add saving upon closing
+- #1: if yes, read text file: <https://codepen.io/hchiam/pen/xxLWbop>
+- #2: detect closing tab - see stack overflow
+- #3: add saving upon closing
 
  */
