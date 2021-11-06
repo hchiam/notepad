@@ -13,4 +13,5 @@ textarea {
   color: white;
   font-family: monospace;
   font-size: 2rem;
+  border: none;
 }
