@@ -7,7 +7,7 @@
     "build": "yarn deploy",
     "deploy": "surge site_files https://simple-notepad.surge.sh",
     "lint": "prettier --write *.{js,css,html,scss,json,md,ts,tsx}",
-    "es-check": "es-check es5 './**/*.js' --not=node_modules"
+    "es-check": "es-check es5 './**/*.js' --not=node_modules,site_files/service-worker.js"
   },
   "devDependencies": {
     "es-check": "^6.0.0",
@@ -23,7 +23,7 @@
   },
   "lint-staged": {
     "**/*.js": [
-      "es-check es5 './**/*.js' --not=node_modules"
+      "es-check es5 './**/*.js' --not=node_modules,site_files/service-worker.js"
     ],
     "*.{js,css,html,scss,json,md,ts,tsx}": "prettier --write"
   }
