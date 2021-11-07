@@ -4,6 +4,11 @@
   box-sizing: border-box;
 }
 
+body {
+  background: #333;
+  color: white;
+}
+
 textarea {
   padding: 3rem;
   resize: none;
