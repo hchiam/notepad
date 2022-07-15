@@ -44,7 +44,7 @@ document.addEventListener(
     ) {
       e.preventDefault();
       var data = textarea.value;
-      var filename = "notepad.txt";
+      var filename = "notepad" + getTimeStamp() + ".txt";
       var type = "text/plain;charset=utf-8";
       download(data, filename, type);
     }
@@ -70,4 +70,19 @@ function download(data, filename, type) {
       window.URL.revokeObjectURL(url);
     }, 0);
   }
+}
+
+function getTimeStamp() {
+  var date = new Date();
+  var year = date.getFullYear();
+  var month = pad(date.getMonth());
+  var day = pad(date.getDate());
+  var hours = pad(date.getHours());
+  var minutes = pad(date.getMinutes());
+  var seconds = pad(date.getSeconds());
+  return "_" + year + month + day + hours + minutes + seconds;
+}
+
+function pad(number) {
+  return String(number).padStart(2, 0);
 }
