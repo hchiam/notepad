@@ -4,6 +4,28 @@ textarea.focus();
 var rememberedText = localStorage.getItem("simple-notepad");
 var yes = !rememberedText || confirm("Restore previous?");
 textarea.value = yes && rememberedText ? rememberedText : "";
+updateTextareaWidth();
+textarea.classList.add("ready-to-edit");
+
+textarea.addEventListener("keydown", function () {
+  updateTextareaWidth();
+});
+
+function updateTextareaWidth() {
+  textarea.setAttribute(
+    "cols",
+    1 +
+      Math.max(
+        0,
+        Math.max.apply(
+          null,
+          textarea.value.split("\n").map(function (line) {
+            return line.length;
+          })
+        )
+      )
+  );
+}
 
 textarea.addEventListener("keyup", function () {
   localStorage.setItem("simple-notepad", textarea.value);

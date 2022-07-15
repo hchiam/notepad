@@ -5,19 +5,26 @@
 }
 
 body {
-  background: #333;
+  background: #222;
   color: white;
+  display: flex;
+  justify-content: center;
 }
 
 textarea {
   padding: 3rem;
+  padding-left: calc(3rem + 1ch);
+  margin: auto;
   resize: none;
-  width: 100%;
   height: 100vh;
-  background: #333;
+  background: transparent;
   color: white;
   font-family: monospace;
   font-size: 2rem;
   border: none;
   outline: none;
+}
+
+textarea:not(.ready-to-edit) {
+  opacity: 0;
 }
