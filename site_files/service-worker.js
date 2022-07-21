@@ -1,4 +1,4 @@
-var SW_VERSION = "version_1.2.1";
+var SW_VERSION = "version_1.2.2";
 
 var appShellURLs = ["/index.html", "/index.js", "/style.css"];
 
