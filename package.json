@@ -5,7 +5,8 @@
     "start": "yarn dev",
     "dev": "parcel site_files/index.html",
     "build": "yarn deploy",
-    "deploy": "surge site_files https://simple-notepad.surge.sh",
+    "deploy": "surge site_files https://hchiam-notepad.surge.sh",
+    "test": "surge site_files https://simple-notepad-test.surge.sh",
     "lint": "prettier --write *.{js,css,html,scss,json,md,ts,tsx}",
     "es-check": "es-check es5 './**/*.js' --not=node_modules,site_files/service-worker.js"
   },
