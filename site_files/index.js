@@ -1,3 +1,6 @@
+var screenWidth = window.innerWidth > 0 ? window.innerWidth : screen.width;
+var isLikelyMobile = screenWidth < 550;
+
 var textarea = document.querySelector("textarea");
 textarea.focus();
 
@@ -12,11 +15,12 @@ textarea.addEventListener("keydown", function () {
 });
 
 function updateTextareaWidth() {
+  var minWidth = isLikelyMobile ? 30 : 0;
   textarea.setAttribute(
     "cols",
     1 +
       Math.max(
-        0,
+        minWidth,
         Math.max.apply(
           null,
           textarea.value.split("\n").map(function (line) {
