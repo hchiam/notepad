@@ -6,6 +6,7 @@ textarea.focus();
 
 var rememberedText = localStorage.getItem("simple-notepad");
 var yes = !rememberedText || confirm("Restore previous?");
+if (!yes) yes = !confirm("Are you sure you want to \nCLEAR/DELETE previous?");
 textarea.value = yes && rememberedText ? rememberedText : "";
 updateTextareaWidth();
 textarea.classList.add("ready-to-edit");
