@@ -14,6 +14,9 @@ textarea.classList.add("ready-to-edit");
 textarea.addEventListener("keydown", function () {
   updateTextareaWidth();
 });
+textarea.addEventListener("keyup", function () {
+  updateTextareaWidth();
+});
 
 function updateTextareaWidth() {
   var minWidth = isLikelyMobile ? 30 : 0;
