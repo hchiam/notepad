@@ -1,6 +1,7 @@
 var screenWidth = window.innerWidth > 0 ? window.innerWidth : screen.width;
 var isLikelyMobile = screenWidth < 550;
 
+var body = document.querySelector("body");
 var textarea = document.querySelector("textarea");
 textarea.focus();
 
@@ -8,15 +9,20 @@ var rememberedText = localStorage.getItem("simple-notepad");
 var yes = !rememberedText || confirm("Restore previous?");
 if (!yes) yes = !confirm("Are you sure you want to \nCLEAR/DELETE previous?");
 textarea.value = yes && rememberedText ? rememberedText : "";
-updateTextareaWidth();
+updateTextareaStyles();
 textarea.classList.add("ready-to-edit");
 
 textarea.addEventListener("keydown", function () {
-  updateTextareaWidth();
+  updateTextareaStyles();
 });
 textarea.addEventListener("keyup", function () {
-  updateTextareaWidth();
+  updateTextareaStyles();
 });
+
+function updateTextareaStyles() {
+  updateTextareaWidth();
+  updateTextareaPosition();
+}
 
 function updateTextareaWidth() {
   var minWidth = isLikelyMobile ? 30 : 0;
@@ -33,6 +39,12 @@ function updateTextareaWidth() {
         )
       )
   );
+}
+
+function updateTextareaPosition() {
+  var haveTextareaOverflow = textarea.offsetWidth > body.offsetWidth;
+  textarea.style.position = haveTextareaOverflow ? "absolute" : "";
+  textarea.style.left = haveTextareaOverflow ? 0 : "";
 }
 
 textarea.addEventListener("keyup", function () {
