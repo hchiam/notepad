@@ -11,7 +11,8 @@ body {
   justify-content: center;
 }
 
-textarea {
+textarea,
+div {
   padding: 3rem;
   padding-left: calc(3rem + 1ch);
   margin: auto;
@@ -25,12 +26,31 @@ textarea {
   outline: none;
 }
 
+div {
+  pointer-events: none;
+  position: absolute;
+  z-index: -1;
+  padding: 3rem;
+  padding-left: calc(3rem + 1ch);
+  overflow-wrap: anywhere;
+  color: transparent;
+}
+
 textarea:not(.ready-to-edit) {
   opacity: 0;
 }
 
+input {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  padding: 0.25rem;
+  display: none;
+}
+
 @media (max-width: 550px) {
-  textarea {
+  textarea,
+  div {
     font-size: 1rem;
     padding: 1.5rem;
   }

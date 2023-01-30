@@ -3,7 +3,13 @@ var isLikelyMobile = screenWidth < 550;
 
 var body = document.querySelector("body");
 var textarea = document.querySelector("textarea");
+var div = document.querySelector("div");
+var input = document.querySelector("input");
 textarea.focus();
+
+var selectionText = "";
+var selectionsCount = 0;
+var selections = [];
 
 var rememberedText = localStorage.getItem("simple-notepad");
 var yes = !rememberedText || confirm("Restore previous?");
@@ -19,9 +25,24 @@ textarea.addEventListener("keyup", function () {
   updateTextareaStyles();
 });
 
+input.addEventListener("keyup", function (e) {
+  if (e.key === "Enter" || e.keyCode === 13) {
+    if (input.value) replaceSelections();
+    selectionText = "";
+    selectionsCount = 0;
+    selections = [];
+    input.value = "";
+    updateTextareaStyles();
+    updateDivText();
+    input.style.display = "none";
+    textarea.focus();
+  }
+});
+
 function updateTextareaStyles() {
   updateTextareaWidth();
   updateTextareaPosition();
+  updateDivOverlayShape();
 }
 
 function updateTextareaWidth() {
@@ -41,14 +62,32 @@ function updateTextareaWidth() {
   );
 }
 
+function updateDivOverlayShape() {
+  var positionInfo = textarea.getBoundingClientRect();
+  div.style.width = textarea.offsetWidth + "px";
+  div.style.left = Math.round(positionInfo.x);
+  div.style.top = Math.round(positionInfo.y);
+
+  var haveTextareaOverflow = textarea.offsetWidth > body.offsetWidth;
+  div.style.position = haveTextareaOverflow ? "absolute" : "";
+  div.style.left = haveTextareaOverflow ? 0 : "";
+  div.style.paddingLeft = textarea.style.paddingLeft;
+}
+
 function updateTextareaPosition() {
   var haveTextareaOverflow = textarea.offsetWidth > body.offsetWidth;
   textarea.style.position = haveTextareaOverflow ? "absolute" : "";
   textarea.style.left = haveTextareaOverflow ? 0 : "";
 }
 
-textarea.addEventListener("keyup", function () {
+textarea.addEventListener("click", function () {
+  updateDivText();
+});
+
+textarea.addEventListener("keyup", function (e) {
   localStorage.setItem("simple-notepad", textarea.value);
+  multiSelect();
+  updateDivText();
 });
 
 window.addEventListener("beforeunload", function (e) {
@@ -67,7 +106,19 @@ document.addEventListener(
       var filename = "notepad" + getTimeStamp() + ".txt";
       var type = "text/plain;charset=utf-8";
       download(data, filename, type);
+    } else if (
+      (e.key === "d" || e.keyCode === 68) &&
+      (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)
+    ) {
+      e.preventDefault();
+      selectionsCount++;
+    } else if (e.key === "Escape" || e.keyCode === 27) {
+      selections = [];
+      selectionsCount = 0;
+      selectionText = "";
     }
+    multiSelect();
+    updateDivText();
   },
   false
 );
@@ -105,4 +156,103 @@ function getTimeStamp() {
 
 function pad(number) {
   return String(number).padStart(2, 0);
+}
+
+function updateDivText() {
+  var text = textarea.value;
+  div.innerHTML = annotateDivText(text);
+}
+
+function annotateDivText(text) {
+  if (selectionText === "") return text;
+
+  var runningIndex = 0;
+  var textPieces = [];
+  for (var i = 0; i < selections.length; i++) {
+    var start = selections[i][0];
+    var end = selections[i][1];
+    textPieces.push(text.substring(runningIndex, start));
+    textPieces.push(text.substring(start, end));
+    runningIndex = end;
+  }
+  if (runningIndex < text.length) {
+    textPieces.push(text.substring(runningIndex, text.length));
+  }
+  return textPieces
+    .map(function (v, i) {
+      if (i % 2 === 0) {
+        return v.replace(/ /g, "_");
+      } else {
+        return (
+          '<span style="background:black;outline:solid lime;">' + v + "</span>"
+        );
+      }
+    })
+    .join("")
+    .replace(/\n/g, "<br>");
+}
+
+function multiSelect() {
+  if (selectionsCount === 0) return;
+
+  multiEditInput();
+
+  var match = selectionText;
+  if (selectionText === "") {
+    selections = [[textarea.selectionStart, textarea.selectionEnd]];
+    match = textarea.value.slice(
+      textarea.selectionStart,
+      textarea.selectionEnd
+    );
+    selectionText = match;
+  } else {
+    var firstMatchStart = textarea.value.indexOf(match);
+    selections = [[firstMatchStart, firstMatchStart + match.length]];
+  }
+  for (let i = 1; i < selectionsCount; i++) {
+    var lastSelectionEnd = selections[selections.length - 1][1];
+    getNextMatch(lastSelectionEnd, match);
+  }
+}
+
+function multiEditInput() {
+  input.style.display = "block";
+}
+
+function getNextMatch(selectionStart, match) {
+  var lastSelectionStart = selections[selections.length - 1][0];
+  var nextMatchRelativeIndex = textarea.value
+    .slice(selectionStart)
+    .indexOf(match);
+  if (nextMatchRelativeIndex >= 0) {
+    var nextSelectionStart = nextMatchRelativeIndex + selectionStart;
+    if (nextSelectionStart !== lastSelectionStart) {
+      selections.push([nextSelectionStart, nextSelectionStart + match.length]);
+    }
+  }
+}
+
+function replaceSelections() {
+  var text = textarea.value;
+  var runningIndex = 0;
+  var textPieces = [];
+  for (var i = 0; i < selections.length; i++) {
+    var start = selections[i][0];
+    var end = selections[i][1];
+    textPieces.push(text.substring(runningIndex, start));
+    textPieces.push(text.substring(start, end));
+    runningIndex = end;
+  }
+  if (runningIndex < text.length) {
+    textPieces.push(text.substring(runningIndex, text.length));
+  }
+  textarea.value = textPieces
+    .map(function (v, i) {
+      if (i % 2 === 0) {
+        return v;
+      } else {
+        return input.value;
+      }
+    })
+    .join("");
 }
