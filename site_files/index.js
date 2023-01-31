@@ -198,18 +198,10 @@ function multiSelect() {
   multiEditInput();
 
   var match = selectionText;
-  if (selectionText === "") {
-    selections = [[textarea.selectionStart, textarea.selectionEnd]];
-    match = textarea.value.slice(
-      textarea.selectionStart,
-      textarea.selectionEnd
-    );
-    selectionText = match;
-  } else {
-    var firstMatchStart = textarea.value.indexOf(match);
-    selections = [[firstMatchStart, firstMatchStart + match.length]];
-  }
-  for (let i = 1; i < selectionsCount; i++) {
+  selections = [[textarea.selectionStart, textarea.selectionEnd]];
+  match = textarea.value.slice(textarea.selectionStart, textarea.selectionEnd);
+  selectionText = match;
+  for (var i = 1; i < selectionsCount; i++) {
     var lastSelectionEnd = selections[selections.length - 1][1];
     getNextMatch(lastSelectionEnd, match);
   }
