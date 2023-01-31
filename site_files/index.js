@@ -26,7 +26,12 @@ textarea.addEventListener("keyup", function () {
 });
 
 input.addEventListener("keyup", function (e) {
-  if (e.key === "Enter" || e.keyCode === 13) {
+  if (
+    e.key === "Enter" ||
+    e.keyCode === 13 ||
+    e.key === "Escape" ||
+    e.keyCode === 27
+  ) {
     if (input.value) replaceSelections();
     selectionText = "";
     selectionsCount = 0;
@@ -116,6 +121,8 @@ document.addEventListener(
       selections = [];
       selectionsCount = 0;
       selectionText = "";
+      input.style.display = "none";
+      textarea.focus();
     }
     multiSelect();
     updateDivText();
