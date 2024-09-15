@@ -55,3 +55,11 @@ input {
     padding: 1.5rem;
   }
 }
+
+body.futhark div {
+  z-index: 0;
+}
+
+body.futhark div::first-line {
+  background: #222;
+}

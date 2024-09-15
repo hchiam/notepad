@@ -16,7 +16,12 @@ var yes = !rememberedText || confirm("Restore previous?");
 if (!yes) yes = !confirm("Are you sure you want to \nCLEAR/DELETE previous?");
 textarea.value = yes && rememberedText ? rememberedText : "";
 updateTextareaStyles();
+updateDivText();
 textarea.classList.add("ready-to-edit");
+
+if (textarea.value.startsWith('futhark\n')) {
+  document.body.classList.add('futhark');
+}
 
 textarea.addEventListener("keydown", function () {
   updateTextareaStyles();
@@ -55,15 +60,15 @@ function updateTextareaWidth() {
   textarea.setAttribute(
     "cols",
     1 +
-      Math.max(
-        minWidth,
-        Math.max.apply(
-          null,
-          textarea.value.split("\n").map(function (line) {
-            return line.length;
-          })
-        )
+    Math.max(
+      minWidth,
+      Math.max.apply(
+        null,
+        textarea.value.split("\n").map(function (line) {
+          return line.length;
+        })
       )
+    )
   );
 }
 
@@ -90,6 +95,12 @@ textarea.addEventListener("click", function () {
 });
 
 textarea.addEventListener("keyup", function (e) {
+  if (textarea.value.startsWith('futhark\n')) {
+    document.body.classList.add('futhark');
+    textarea.value = 'futhark\n' + translateToFuthark(textarea.value.replace(/^futhark\n/, ''))
+  } else {
+    document.body.classList.remove('futhark');
+  }
   localStorage.setItem("simple-notepad", textarea.value);
   multiSelect();
   updateDivText();
@@ -254,4 +265,48 @@ function replaceSelections() {
       }
     })
     .join("");
+}
+
+
+const futharkMap = {
+  a: 'ᚨ',
+  b: 'ᛒ',
+  d: 'ᛞ',
+  e: 'ᛖ',
+  f: 'ᚠ',
+  g: 'ᚷ',
+  h: 'ᚺ',
+  i: 'ᛁ',
+  j: 'ᛃ',
+  k: 'ᚲ',
+  l: 'ᛚ',
+  m: 'ᛗ',
+  n: 'ᚾ',
+  o: 'ᛟ',
+  p: 'ᛈ',
+  r: 'ᚱ',
+  s: 'ᛊ',
+  t: 'ᛏ',
+  u: 'ᚢ',
+  w: 'ᚹ',
+  y: 'ᛇ',
+  z: 'ᛉ',
+}
+
+function translateToFuthark(text) {
+  text = text.toLowerCase();
+  /* look ahead:
+  th:'ᚦ',
+  ng:'ᛜ',
+  */
+  text = text
+    .replace(/[tᛏ][hᚺ]/g, 'ᚦ')
+    .replace(/[nᚾ][gᚷ]/g, 'ᛜ');
+
+  let translation = '';
+  for (let letter of text) {
+    translation += letter in futharkMap ? futharkMap[letter] : letter;
+  }
+
+  return translation;
 }
