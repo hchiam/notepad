@@ -19,8 +19,8 @@ updateTextareaStyles();
 updateDivText();
 textarea.classList.add("ready-to-edit");
 
-if (textarea.value.startsWith('futhark\n')) {
-  document.body.classList.add('futhark');
+if (textarea.value.startsWith("futhark\n")) {
+  document.body.classList.add("futhark");
 }
 
 textarea.addEventListener("keydown", function () {
@@ -60,15 +60,15 @@ function updateTextareaWidth() {
   textarea.setAttribute(
     "cols",
     1 +
-    Math.max(
-      minWidth,
-      Math.max.apply(
-        null,
-        textarea.value.split("\n").map(function (line) {
-          return line.length;
-        })
+      Math.max(
+        minWidth,
+        Math.max.apply(
+          null,
+          textarea.value.split("\n").map(function (line) {
+            return line.length;
+          })
+        )
       )
-    )
   );
 }
 
@@ -95,11 +95,17 @@ textarea.addEventListener("click", function () {
 });
 
 textarea.addEventListener("keyup", function (e) {
-  if (textarea.value.startsWith('futhark\n')) {
-    document.body.classList.add('futhark');
-    textarea.value = 'futhark\n' + translateToFuthark(textarea.value.replace(/^futhark\n/, ''))
+  if (textarea.value.startsWith("futhark\n")) {
+    document.body.classList.add("futhark");
+    var selectionStart = textarea.selectionStart;
+    var selectionEnd = textarea.selectionEnd;
+    textarea.value =
+      "futhark\n" +
+      translateToFuthark(textarea.value.replace(/^futhark\n/, ""));
+    textarea.selectionStart = selectionStart;
+    textarea.selectionEnd = selectionEnd;
   } else {
-    document.body.classList.remove('futhark');
+    document.body.classList.remove("futhark");
   }
   localStorage.setItem("simple-notepad", textarea.value);
   multiSelect();
@@ -267,31 +273,40 @@ function replaceSelections() {
     .join("");
 }
 
-
-const futharkMap = {
-  a: 'ᚨ',
-  b: 'ᛒ',
-  d: 'ᛞ',
-  e: 'ᛖ',
-  f: 'ᚠ',
-  g: 'ᚷ',
-  h: 'ᚺ',
-  i: 'ᛁ',
-  j: 'ᛃ',
-  k: 'ᚲ',
-  l: 'ᛚ',
-  m: 'ᛗ',
-  n: 'ᚾ',
-  o: 'ᛟ',
-  p: 'ᛈ',
-  r: 'ᚱ',
-  s: 'ᛊ',
-  t: 'ᛏ',
-  u: 'ᚢ',
-  w: 'ᚹ',
-  y: 'ᛇ',
-  z: 'ᛉ',
-}
+var futharkMap = {
+  a: "ᚨ",
+  b: "ᛒ",
+  d: "ᛞ",
+  e: "ᛖ",
+  f: "ᚠ",
+  g: "ᚷ",
+  h: "ᚺ",
+  i: "ᛁ",
+  j: "ᛃ",
+  k: "ᚲ",
+  l: "ᛚ",
+  m: "ᛗ",
+  n: "ᚾ",
+  o: "ᛟ",
+  p: "ᛈ",
+  r: "ᚱ",
+  s: "ᛊ",
+  t: "ᛏ",
+  u: "ᚢ",
+  w: "ᚹ",
+  y: "ᛇ",
+  z: "ᛉ",
+  0: "⠚",
+  1: "⠁",
+  2: "⠃",
+  3: "⠉",
+  4: "⠙",
+  5: "⠑",
+  6: "⠋",
+  7: "⠛",
+  8: "⠓",
+  9: "⠊",
+};
 
 function translateToFuthark(text) {
   text = text.toLowerCase();
@@ -299,12 +314,11 @@ function translateToFuthark(text) {
   th:'ᚦ',
   ng:'ᛜ',
   */
-  text = text
-    .replace(/[tᛏ][hᚺ]/g, 'ᚦ')
-    .replace(/[nᚾ][gᚷ]/g, 'ᛜ');
+  text = text.replace(/[tᛏ][hᚺ]/g, "ᚦ").replace(/[nᚾ][gᚷ]/g, "ᛜ");
 
-  let translation = '';
-  for (let letter of text) {
+  var translation = "";
+  for (var i = 0; i < text.length; i++) {
+    var letter = text[i];
     translation += letter in futharkMap ? futharkMap[letter] : letter;
   }
 
