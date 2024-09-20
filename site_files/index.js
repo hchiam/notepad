@@ -309,18 +309,27 @@ var futharkMap = {
 };
 
 function translateToFuthark(text) {
-  text = text.toLowerCase();
-  /* look ahead:
-  th:'ᚦ',
-  ng:'ᛜ',
-  */
-  text = text.replace(/[tᛏ][hᚺ]/g, "ᚦ").replace(/[nᚾ][gᚷ]/g, "ᛜ");
-
   var translation = "";
-  for (var i = 0; i < text.length; i++) {
-    var letter = text[i];
-    translation += letter in futharkMap ? futharkMap[letter] : letter;
-  }
+
+  var urlRegex = /(https?:\/\/[^\s]+)/g;
+  var textSplitWithUrlsIncluded = text.split(urlRegex);
+  textSplitWithUrlsIncluded.forEach((segment) => {
+    if (urlRegex.test(segment)) {
+      translation += segment;
+    } else {
+      segment = segment.toLowerCase();
+      /* look ahead:
+            th:'ᚦ',
+            ng:'ᛜ',
+      */
+      segment = segment.replace(/[tᛏ][hᚺ]/g, "ᚦ").replace(/[nᚾ][gᚷ]/g, "ᛜ");
+
+      for (var i = 0; i < segment.length; i++) {
+        var letter = segment[i];
+        translation += letter in futharkMap ? futharkMap[letter] : letter;
+      }
+    }
+  });
 
   return translation;
 }
