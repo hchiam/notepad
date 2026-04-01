@@ -63,3 +63,21 @@ body.futhark div {
 body.futhark div::first-line {
   background: #222;
 }
+
+@font-face {
+  font-family: "PenFriendlyBraille";
+  src: url("PenFriendlyBraille.ttf");
+}
+
+body.pfb textarea,
+body.pfb div {
+  font-family: "PenFriendlyBraille", monospace;
+}
+
+body.pfb div {
+  z-index: 1;
+}
+
+body.pfb div::first-line {
+  background: #222;
+}

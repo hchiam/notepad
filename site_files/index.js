@@ -23,6 +23,10 @@ if (textarea.value.startsWith("futhark\n")) {
   document.body.classList.add("futhark");
 }
 
+if (textarea.value.startsWith("pfb\n")) {
+  document.body.classList.add("pfb");
+}
+
 textarea.addEventListener("keydown", function () {
   updateTextareaStyles();
 });
@@ -106,6 +110,12 @@ textarea.addEventListener("keyup", function (e) {
     textarea.selectionEnd = selectionEnd;
   } else {
     document.body.classList.remove("futhark");
+  }
+
+  if (textarea.value.startsWith("pfb\n")) {
+    document.body.classList.add("pfb");
+  } else {
+    document.body.classList.remove("pfb");
   }
   localStorage.setItem("simple-notepad", textarea.value);
   multiSelect();
