@@ -1,4 +1,4 @@
-var SW_VERSION = "notepad-version_3.5.0";
+var SW_VERSION = "notepad-version_4.0.0";
 
 var appShellURLs = ["/index.html", "/index.js", "/style.css"];
 
